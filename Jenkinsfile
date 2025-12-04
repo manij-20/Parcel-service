@@ -1,16 +1,16 @@
 pipeline {
-    agent { label 'java' }
-
+   agent { label 'java' }
+     // agent any
     tools {
         jdk 'JDK17'
         maven 'maven'
     }
 
-    stages {
+   stages {
 
         stage('Checkout') {
             steps {
-                checkout scm     
+               checkout scm
             }
         }
 
@@ -25,9 +25,16 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
+
         stage('Run Application') {
             steps {
-                sh 'mvn spring-boot:run &'
+                  sh 'mvn spring-boot:run'
+                  dir('/var/lib/jenkins/workspace/Parcel_service_feature-1/target') {
+                   sh """
+                     //   nohup java -jar simple-parcel-service-app-1.0-SNAPSHOT.jar > app.log 2>&1 &
+                        //echo "Application started"
+                   """
+                }
             }
         }
     }
