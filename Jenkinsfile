@@ -25,7 +25,6 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
-
         stage('Run Application') {
             steps {
                 sh 'mvn spring-boot:run &'
