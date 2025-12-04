@@ -1,16 +1,16 @@
 pipeline {
-   agent { label 'java' }
-     // agent any
+    agent { label 'java' }
+
     tools {
         jdk 'JDK17'
         maven 'maven'
     }
 
-   stages {
+    stages {
 
         stage('Checkout') {
             steps {
-                git branch: 'feature-1', url: 'https://github.com/manij-20/Parcel-service.git'
+                checkout scm     
             }
         }
 
@@ -28,13 +28,7 @@ pipeline {
 
         stage('Run Application') {
             steps {
-                  sh 'mvn spring-boot:run'
-                  dir('/var/lib/jenkins/workspace/Parcel_service_feature-1/target') {
-                   sh """
-                     //   nohup java -jar simple-parcel-service-app-1.0-SNAPSHOT.jar > app.log 2>&1 &
-                        //echo "Application started"
-                   """
-                }
+                sh 'mvn spring-boot:run &'
             }
         }
     }
